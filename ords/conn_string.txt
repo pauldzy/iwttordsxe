@@ -1,0 +1,1 @@
+CONN_STRING="sys as sysdba/${ORACLE_PWD}@iwttxe:1521/XEPDB1"

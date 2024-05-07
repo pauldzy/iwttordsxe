@@ -1,0 +1,43 @@
+services:
+
+   iwttxe:
+      image: container-registry.oracle.com/database/express:21.3.0-xe
+      ports:
+         - 1522:1521
+         - 5501:5500
+      environment:
+         - ORACLE_PWD=iwtt123
+         - IWTT_PWD=iwtt123
+         - ORACLE_CHARACTERSET=AL32UTF8
+      volumes:
+         - ora-data:/opt/oracle/oradata
+         - ./xe/iwtt_startup.sh:/opt/oracle/scripts/startup/iwtt_startup.sh
+         - ./xe/loading_dock:/loading_dock
+      networks:
+         - backend
+         
+   iwttords:
+      image: container-registry.oracle.com/database/ords:22.4.4
+      ports:
+         - 8181:8181
+      environment:
+         - ORACLE_PWD=iwtt123
+         - IWTT_PWD=iwtt123
+         - IGNORE_APEX=FALSE
+      volumes:
+         - ords-stash:/stash
+         - ./ords/conn_string.txt:/opt/oracle/variables/conn_string.txt:ro
+         - ./ords/90-setup_iwtt.sh:/ords-entrypoint.d/90-setup_iwtt.sh
+      depends_on:
+         iwttxe:
+           condition: service_healthy
+      networks:
+         - backend
+         
+volumes:
+   ora-data:
+   ords-stash:
+  
+networks:
+   backend:
+      driver: bridge
