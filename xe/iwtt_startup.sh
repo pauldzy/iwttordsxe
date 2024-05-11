@@ -7,7 +7,7 @@ else
    echo "setting up iwttdb on first start"
    
    sqlplus -s "sys/${ORACLE_PWD}@iwttxe:1521/XEPDB1 as sysdba" <<EOF
-CREATE TABLESPACE iwtt_data_orcwater DATAFILE 'iwtt_data_orcwater.dbf' SIZE 1M AUTOEXTEND ON NEXT 1m;
+CREATE TABLESPACE iwtt_data_orcwater DATAFILE 'iwtt_data_orcwater.dbf' SIZE 400M AUTOEXTEND ON NEXT 1m;
 
 CREATE USER iwtt IDENTIFIED BY "${IWTT_PWD}" DEFAULT TABLESPACE iwtt_data_orcwater QUOTA UNLIMITED ON iwtt_data_orcwater;
 GRANT connect,resource,create view TO iwtt;

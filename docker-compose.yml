@@ -28,6 +28,7 @@ services:
          - ords-stash:/stash
          - ./ords/conn_string.txt:/opt/oracle/variables/conn_string.txt:ro
          - ./ords/90-setup_iwtt.sh:/ords-entrypoint.d/90-setup_iwtt.sh
+         - ./ords/iwtt_rest_OWSTG.sql:/scripts/iwtt_rest_OWSTG.sql
       depends_on:
          iwttxe:
            condition: service_healthy
